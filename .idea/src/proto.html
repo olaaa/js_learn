@@ -49,6 +49,24 @@
         // Удаление осуществляется из самого прототипа, поэтому свойство rabbit.eats больше взять неоткуда.
         console.log(rabbit1.eats);
 
+        // тест вызовов
+        function Unicorn(name) {
+            this.name = name;
+        }
+
+        Unicorn.prototype.sayHi = function () {
+            console.log(this.name);
+        }
+
+        var uncorn = new Unicorn("Unicorn");
+
+        console.log('--------------------------------------------------')
+        uncorn.sayHi(); // this = uncorn
+        Unicorn.prototype.sayHi();  // undefined, т.к.name в прототипе недоступно, this = Unicorn.prototype
+        Object.getPrototypeOf(uncorn).sayHi(); // undefined, т.к. name в прототипе недоступно, this = Unicorn.prototype
+        uncorn.__proto__.sayHi(); //undefined, т.к name в прототипе недоступно, this = Unicorn.prototype
+
+        var unicorn1 = new uncorn.constructor();
     </script>
     <meta charset="UTF-8">
     <title>Title</title>

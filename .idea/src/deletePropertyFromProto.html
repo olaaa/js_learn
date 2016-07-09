@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        "use strict";
+
+        var animal = {
+            jumps: null
+        };
+        var rabbit = {
+            jumps: true
+        };
+
+        rabbit.__proto__ = animal;
+
+        console.log(rabbit.jumps); // true (1)
+
+        delete rabbit.jumps;
+
+        console.log(rabbit.jumps); // null (2) обращаемся к предку
+
+        // Объект, на который указывает ссылка __proto__, называется «прототипом».
+        delete animal.jumps;
+        console.log(rabbit.jumps); // undefined (3)
+
+
+        var fabulousAnimal = {
+            eat: function () {
+                this.full = true;
+            }
+        };
+
+        var unicorn = {
+            __proto__: fabulousAnimal
+        };
+
+        unicorn.eat(); // в объкте unicorn создастся поле full равное true
+        console.log(unicorn.hasOwnProperty('full')); // true
+        console.log(unicorn.full); // true
+    </script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
