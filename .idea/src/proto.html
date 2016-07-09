@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        "use strict";
+        function Rabbit() {
+        } // Rabbit.prototype.constructor == Rabbit
+        // Object.getOwnPropertyNames(Rabbit.prototype) // constructor единственное свойство
+        Rabbit.prototype = {
+            eats: true
+        }; // сво-во Rabbit.prototype.constructor затёрлось,
+        // теперь приняло дефолтное значение: == Object
+
+        var rabbit = new Rabbit();
+//        rabbit.__proto__ == Rabbit.prototype // TRUE
+        console.log(rabbit.eats);
+
+        Rabbit.prototype = {};
+        // Результат: true.
+        // Свойство prototype всего лишь задаёт __proto__ у новых объектов.
+             // Так что его изменение не повлияет на rabbit.__proto__.
+        // rabbit.__proto__ смотрит по ссылке туда же, Rabbit.prototype теперь смотрит на другую область памяти
+        // Свойство eats будет получено из прототипа.
+        console.log(rabbit.eats);
+
+
+        // Изменение свойства в прототипе
+        function Rabbit1(name) {
+        }
+        Rabbit1.prototype = {
+            eats: true
+        };
+
+        var rabbit1 = new Rabbit1();
+
+        Rabbit1.prototype.eats = false; // *
+//        rabbit1.__proto__.eats = Rabbit1.prototype.eats = false
+        console.log(rabbit1.eats);
+
+        delete rabbit1.eats; // *
+        //  попытается удалить eats из rabbit, где его и так нет.
+        // А чтение в alert произойдёт из прототипа.
+
+        console.log(rabbit1.eats);
+
+        delete Rabbit1.prototype.eats; // (*)
+
+        // Результат: undefined.
+        // Удаление осуществляется из самого прототипа, поэтому свойство rabbit.eats больше взять неоткуда.
+        console.log(rabbit1.eats);
+
+    </script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>

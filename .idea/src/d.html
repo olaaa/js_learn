@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+<script>
+
+
+
+//    var pow = function (n, x) {
+    function pow (n, x)  {
+        if (n <= 1) {
+            console.log('Степень ' + n +
+                    'не поддерживается, введите целую степень, большую 1'
+            );
+            return;
+        }
+            var result = x;
+
+            for (var i = 1; i < n; i++) {
+                result *= x;
+            }
+
+            return result;
+
+    }
+
+    if (pow(3, 1)) {
+        console.log('yes')
+    }
+
+//    var users = [{
+//        name: "Вася",
+//        surname: 'Иванов',
+//        age: 20
+//    }, {
+//        name: "Петя",
+//        surname: 'Чапаев',
+//        age: 25
+//    }, {
+//        name: "Маша",
+//        surname: 'Медведева',
+//        age: 18
+//    }];
+//
+//    function byField(field) {
+//        return function (a, b) {
+//            return a[field] > b[field] ? 1 : -1;
+//        }
+//    }
+//
+//    users.sort(byField('name'));
+//    users.forEach(function (user) {
+//        alert(user.name);
+//    }); // Вася, Маша, Петя
+//
+//    users.sort(byField('age'));
+//    users.forEach(function (user) {
+//        alert(user.name);
+//    }); // Маша, Вася, Петя
+
+
+    //    var a = 1;
+//    function getFunc() {
+//        var a = 2;
+//
+//        var func = new Function('', 'alert(a)');
+//
+//        return func;
+//    }
+//
+//    getFunc()(); // 1, из window
+
+
+//    var value = 0;
+//
+//    function f() {
+//        if (1) {
+//            value = true;
+//        } else {
+//            var value = false;  // объявление локальной переменной всплывает наверх, а локальная перекрывает глобальную!!
+//        }
+//
+//        alert(value);
+//    }
+//
+//    f();
+
+</script>
+</body>
+
+</html>
