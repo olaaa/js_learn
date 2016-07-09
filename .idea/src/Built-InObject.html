@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <script>
+        //        https://learn.javascript.ru/native-prototypes
+        "use strict";
+        //        Object() — встроенная функция-конструктор для объектов.
+        var obj = {}; //  obj = new Object()
+        console.log(obj); // "[object Object]"
+
+        // метод берётся из прототипа?
+        console.log(obj.toString == Object.prototype.toString); // true, да
+
+        // проверим, правда ли что __proto__ это Object.prototype?
+        console.log(obj.__proto__ == Object.prototype); // true
+
+        // А есть ли __proto__ у Object.prototype?
+        console.log(obj.__proto__.__proto__); // null, нет
+
+
+        // Конструкторы String/Number/Boolean – только для внутреннего использования
+
+        var user = "Вася"; // создали строку (примитив)
+
+        console.log(user.toUpperCase()); // ВАСЯ
+        // был создан временный объект new String
+        // вызван метод
+        // new String уничтожен, результат возвращён
+
+        Object.prototype.each = function (f) {
+
+            // пропускать свойства из прототипа
+//            if (!this.hasOwnProperty(prop)) continue; тогда свойство each пропустится
+
+            for (var prop in this) {
+                var value = this[prop];
+                f.call(value, prop, value); // вызовет f(prop, value), this=value
+                // вызов аналогичен f(prop, value);
+            }
+        }
+
+        // Попробуем! (внимание, пока что это работает неверно!)
+        var user = {
+            name: 'Вася',
+            age: 25
+        };
+        //  чтобы не отображалось в свойствах user'a
+        //        Object.defineProperty(Object.prototype, 'each', {
+        //            enumerable: false
+        //        })
+        user.each(function (prop, val) {
+            console.log(prop); // name -> age -> each
+        });
+
+        Object.prototype.defer = function (ms) {
+            var f = this; // сохраняем контекст f, так как в анонимн ф-ции он undefined
+            return function () {
+                var args = arguments;
+                var context = this;
+
+                setTimeout(
+                        function () {
+                            f.apply(context, args);
+                        }
+                        , ms);
+            };
+        }
+
+        function f(a, b) {
+            console.log('summ =' + a + b);
+        }
+
+        f.defer(5000)(1, 2);
+
+    </script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
