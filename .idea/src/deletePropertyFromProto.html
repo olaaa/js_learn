@@ -37,6 +37,47 @@
         unicorn.eat(); // в объкте unicorn создастся поле full равное true
         console.log(unicorn.hasOwnProperty('full')); // true
         console.log(unicorn.full); // true
+
+
+        var head = {
+            glasses: 1
+        };
+
+        var table = {
+            pen: 3,
+            __proto__: head
+        };
+
+        var bed = {
+            sheet: 1,
+            pillow: 2,
+            __proto__: table
+        };
+
+        var pockets = {
+            money: 2000,
+            __proto__: bed
+        };
+
+        console.log(pockets.pen === 3); // 3
+        console.log(bed.glasses === 1); // 1
+        console.log(table.money === undefined); // undefined
+        //Присвойте объектам ссылки __proto__ так,
+        // чтобы любой поиск чего-либо шёл по алгоритму pockets -> bed -> table -> head.
+
+        // как быстрее искать glasses: обращением к pockets.glasses или head.glasses
+
+        testExecTime((function () {pockets.glasses}));
+        testExecTime((function() {head.glasses}));
+
+        function testExecTime(testedFunction) {
+            var t0 = performance.now();
+            testedFunction();
+            var t1 = performance.now();
+            var execDuration = t1 - t0;
+            console.log("Call to function took " + (execDuration) + " milliseconds.")
+            return execDuration;
+        }
     </script>
     <meta charset="UTF-8">
     <title>Title</title>
