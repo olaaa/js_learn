@@ -4,7 +4,86 @@
     <script>
         "use strict;"
 
+        var arr = ["a", "b"];
 
+        arr.push(function () { // запихиваем в конец функцию
+            console.log(this.toString());
+        })
+
+        arr[arr.length-1](); // ?
+
+        var obj, method;
+
+        obj = {
+            go: function () {
+                console.log(this);
+            }
+        };
+
+        obj.go();            // (1) object
+
+        (obj.go)();          // (2) object
+
+        (method = obj.go)();      // (3) undefined
+        /*
+         Такой вызов работает, как если бы он был разбит на две строки:
+
+         method = obj.go; // сначала вычислить выражение
+         method();             // потом вызвать то, что получилось
+         При этом method() выполняется как обычная функция, без передачи this.
+         */
+
+        (obj.go || obj.stop)(); // (4) undefined
+        /**
+         * Аналогичная ситуация и в случае (4): оператор ИЛИ || делает из Reference Type обычную функцию.
+         */
+
+        // https://learn.javascript.ru/object-methods#значение-this-в-объявлении-объекта
+
+        var user = {
+            firstName: "Василий",
+
+            export: this // Объявление объекта само по себе не влияет на this.
+        };
+
+        console.log(user.export.firstName);
+        /**
+         * Получается, что в строке (*) мы имеем export: window,
+         * так что далее alert(user.export.firstName) выводит свойство window.firstName, которое не определено.
+         */
+
+        //Возврат this
+        var name = "";
+
+        var user = {
+            name: "Василий",
+
+            export: function () {
+                return this;
+            }
+
+        };
+        /*
+         Вызов user.export() использует this, который равен объекту до точки,
+         то есть внутри user.export() строка return this возвращает объект user.
+         */
+        console.log(user.export().name); // Василий
+
+        // Возврат объекта с this
+        var name = "";
+
+        var user = {
+            name: "Василий",
+
+            export: function () {
+                return {
+                    value: this
+                };
+            }
+
+        };
+        // user.export().value == user
+        console.log(user.export().value.name); // Василий
     </script>
     <meta charset="UTF-8">
     <title>Title</title>
