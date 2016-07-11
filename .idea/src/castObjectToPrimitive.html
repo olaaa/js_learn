@@ -94,23 +94,23 @@
         console.log([] + null + 1); // null1
         console.log([[0]][0][0]);// 0
         console.log({} + {});
-        // Каждый объект преобразуется к примитиву. У встроенных объектов Object нет подходящего valueOf,
+        // Каждый объект преобразуется к примизтиву. У встроенных объектов Object нет подходящего valueOf,
         // поэтому используется toString, так что складываются в итоге строковые представления объектов.
 
         console.log("= Sum on closure ======================================================================================");
         function sum(number) {
             var result = number;
 
-            function sumFluentStyle(number1) {
+            function sumBuilder(number1) {
                 result += number1;
-                return sumFluentStyle; // this = Window
+                return sumBuilder; // this = Window
             };
 
-            sumFluentStyle.toString = function () {
+            sumBuilder.toString = function () {
                 return result;
             }
 
-            return sumFluentStyle
+            return sumBuilder
         }
 
 
